@@ -1,9 +1,7 @@
-
 from mpl_toolkits.mplot3d import Axes3D, axes3d
 import matplotlib.pyplot as plt
 import numpy as np
 import json
-
 
 def show_center_img(x, y, z):
     print("Show distribution img of protein's center")
@@ -57,6 +55,47 @@ def get_packing_and_plot_ball(optimal_result, boundary_shpere):
     drawing_center_with_ball(radius_list, center_list)
 
 
+def get_multiple_packing_and_plot_ball(multi_sphere, optimal_result):
+    pdb_id = optimal_result['pdb_id']
+
+    shifted_centers_x = optimal_result['x']
+    shifted_centers_y = optimal_result['y']
+    shifted_centers_z = optimal_result['z']
+
+    # for i in range(len(shifted_centers_x)):
+    #     print('protein '+i+' center - '+str(shifted_centers_x[i])+' '+str(shifted_centers_y[i])+' '+str(shifted_centers_z[i]))
+
+    x = []
+    y = []
+    z = []
+
+    radius_list = []
+
+    for ii in range(len(pdb_id)):
+        dict = multi_sphere[pdb_id[ii]]
+        for keys in dict:
+            np.array(dict[keys]['sphere_center'])
+            shifted_centers = np.array([shifted_centers_x[ii], shifted_centers_y[ii], shifted_centers_z[ii]])
+            #print(str(shifted_centers[0])+' '+str(shifted_centers[1])+' '+str(shifted_centers[2]))
+            print(shifted_centers)
+            print(dict[keys]['sphere_center'])
+            dict[keys]['sphere_center'] = dict[keys]['sphere_center'] - shifted_centers
+            print(dict[keys]['sphere_center'])
+            x.append(dict[keys]['sphere_center'][0])
+            y.append(dict[keys]['sphere_center'][1])
+            z.append(dict[keys]['sphere_center'][2])
+            radius_list.append(dict[keys]['sphere_radius'])
+
+    x_loc = np.array(x)
+    y_loc = np.array(y)
+    z_loc = np.array(z)
+
+    center_list = [x_loc, y_loc, z_loc]
+
+    drawing_center_with_ball(radius_list, center_list)
+
+    print(len(x))
+
 def drawing_center_with_ball(radius_list, loc_list):
     # for loc_list row 0,1,2 of the matrix represent x,y,z, colum 0,1,... represent location of each protein
 
@@ -83,11 +122,24 @@ def drawing_center_with_ball(radius_list, loc_list):
         y_list = np.concatenate([y, y_list], axis=1)
         z_list = np.concatenate([z, z_list], axis=1)
 
+    X = x_list
+    Y = y_list
+    Z = z_list
+
     fig = plt.figure()
     ax = fig.add_subplot(projection='3d')
+    #ax.set_aspect('equal')
     ax.plot_surface(x_list, y_list, z_list, rstride=4, cstride=4, color='b')
-    plt.show()
+    max_range = np.array([X.max()-X.min(), Y.max()-Y.min(), Z.max()-Z.min()]).max()
+    Xb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][0].flatten() + 0.5*(X.max()+X.min())
+    Yb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][1].flatten() + 0.5*(Y.max()+Y.min())
+    Zb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][2].flatten() + 0.5*(Z.max()+Z.min())
+# Comment or uncomment following both lines to test the fake bounding box:
+    for xb, yb, zb in zip(Xb, Yb, Zb):
+        ax.plot([xb], [yb], [zb], 'w')
 
+    print(len(radius_list))
+    plt.show()
 
 def get_json_and_plot_ball(file):
     # input the path of the json file, then the function will read information in
