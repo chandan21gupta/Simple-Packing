@@ -134,11 +134,11 @@ def packing_with_target(packing_op):
         min_dict['sum_list'] = sum_list
 
     ## show image
-    if packing_op['show_img'] != 0:
+    # if packing_op['show_img'] != 0:
     #    DR.show_center_img(min_dict['initialization'][0], min_dict['initialization'][1], min_dict['initialization'][2])
     #    DR.show_center_img(min_dict['x'], min_dict['y'], min_dict['z'])
     #    DR.show_sum_img(min_dict['sum_list'], len(radius_list), protein_name)
-        DR.get_packing_and_plot_ball(min_dict, packing_op['boundary_shpere'])
+    #    DR.get_packing_and_plot_ball(min_dict, packing_op['boundary_shpere'])
 
 
     # save general information
