@@ -18,5 +18,5 @@ a simple packing function that implements 'single ball model' and 'multiple-ball
 
 2. Do not upload the input and output file
 
-3. Do not modify the existing files. If you want to use the improve existing function, please create a new one with a different name after that function, and I will check that out and combine the two functions together.
+3. Do not modify the existing files. If you want to improve existing function, please create a new one with a different name after that function, and I will check that out and combine the two functions together.
 
