@@ -10,3 +10,13 @@ a simple packing function that implements 'single ball model' and 'multiple-ball
 ###### 3. simu_subtomo.py: packing and obtain cryo-ET of several macromolecules, then get the subtomogram of the target macromolecule.
 
 ###### 4. generate_simu_subtomo.py: generate a set of simulated subtomogram automatically.
+
+
+# When contribute to this repo, please:
+
+1. Do not uplaod file in "__ pycache__" folder
+
+2. Do not upload the input and output file
+
+3. Do not modify the existing files. If you want to use the improve existing function, please create a new one with a different name after that function, and I will check that out and combine the two functions together.
+
