@@ -270,9 +270,9 @@ def pdb2ball_multiple(op_p2mb):
             sphere_info = get_center_and_radius(atom_coord_array, kmeans_result, save_filename,op_p2mb )
             multi_sphere_info[pdb_id] = sphere_info
 
-            # draw figure
-            scale = scale_value(len(atom_coord_array))
-            draw_cluster(atom_coord_array, kmeans_result, op_p2mb['k'], scale, op_p2mb['savepath'], save_filename)
+            # # draw figure
+            # scale = scale_value(len(atom_coord_array))
+            # draw_cluster(atom_coord_array, kmeans_result, op_p2mb['k'], scale, op_p2mb['savepath'], save_filename)
 
 
             print('file', file, 'done!')
