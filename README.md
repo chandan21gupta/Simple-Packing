@@ -14,9 +14,13 @@ a simple packing function that implements 'single ball model' and 'multiple-ball
 
 # When contribute to this repo, please:
 
-1. Do not uplaod file in "__ pycache__" folder
+1. Please do not uplaod file in "__ pycache__" folder
 
-2. Do not upload the input and output file
+2. Please do not upload the input and output file
 
-3. Do not modify the existing files. If you want to improve existing function, please create a new one with a different name after that function, and I will check that out and combine the two functions together.
+3. Please do not modify the existing files. If you want to improve existing function, please create a new one with a different name after that function, and I will check that out and combine the two functions together.
+
+4. Please do not create files with name the same as existing one.
+
+Thanks for your contributation!
 
