@@ -1,0 +1,14 @@
+*.png
+*.pdb
+*.mrc
+__pycache__
+*.pyc
+.ipynb_checkpoints
+.DS_Store
+.cache
+build
+ext
+.vscode
+data
+*.so
+.idea
