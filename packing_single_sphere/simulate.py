@@ -5,15 +5,13 @@ import random_select as RS
 import packing as PK
 import visualization as DR
 import pprint
-import sys
-
 '''
 If you want to see the output image(location, loss, etc.) of the simulating process
 please uncomment the line 4, line 134-139.
 '''
 
 packing_op = {'target': '1bxn',
-              'random_protein_number': 4,
+              'random_protein_number': 1,
               'PDB_ori_path': '../IOfile/pdbfile/',
               'iteration':5001,
               'step':1,
@@ -138,7 +136,7 @@ def packing_with_target(packing_op):
     #    DR.show_center_img(min_dict['initialization'][0], min_dict['initialization'][1], min_dict['initialization'][2])
     #    DR.show_center_img(min_dict['x'], min_dict['y'], min_dict['z'])
     #    DR.show_sum_img(min_dict['sum_list'], len(radius_list), protein_name)
-    #    DR.get_packing_and_plot_ball(min_dict, packing_op['boundary_shpere'])
+    # DR.get_packing_and_plot_ball(min_dict, packing_op['boundary_shpere'])
 
 
     # save general information

@@ -6,10 +6,12 @@ import pdb2ball_single as P2B
 import visualization as DR
 import json_saver as js
 import simulate as simu
-import sys
 import json
+import multiple_packing as mp
+
 #sys.path.append("..")
 import pprint
+
 
 op_p2mb = { 'target_protein': '1bxn',
             'PDB_ori_path': '../IOfile/pdbfile/',
@@ -20,6 +22,8 @@ op_p2mb = { 'target_protein': '1bxn',
             'show_info': 1}
 
 packing_op = simu.packing_op
+
+packing_op['iteration'] = 5001
 
 def packing_with_target_mtsp( op_p2mb ):
 
@@ -55,6 +59,10 @@ def packing_with_target_mtsp( op_p2mb ):
     # DR.get_multiple_packing_and_plot_ball(data,min_dict)
 
     DR.get_multiple_packing_and_plot_ball(multi_sphere_data,single_sphere_data)
+
+    result = mp.do_multiple_packing(multi_sphere_data, single_sphere_data)
+
+    DR.drawing_center_with_ball(result['radius_list'], result['centers'])
 
     # print(sphere_list)
 

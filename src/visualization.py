@@ -2,6 +2,7 @@ from mpl_toolkits.mplot3d import Axes3D, axes3d
 import matplotlib.pyplot as plt
 import numpy as np
 import json
+import math
 
 def show_center_img(x, y, z):
     print("Show distribution img of protein's center")
@@ -54,9 +55,68 @@ def get_packing_and_plot_ball(optimal_result, boundary_shpere):
 
     drawing_center_with_ball(radius_list, center_list)
 
+def checkOverlap(multi_sphere):
+    # multi_sphere_info = {  '1f1b': {   0: {  'sphere_center': array([36.968, 47.965, -9.969], dtype=float32),
+    #                                                  'sphere_id': 0,
+    #                                                  'sphere_radius': 39.7004,
+    #                                                  'vmd_radius': 26.820240783691407},
+
+    #                                            1: {  'sphere_center': ***,
+    #                                                  'sphere_id': ***,
+    #                                                  'sphere_radius': ***,
+    #                                                  'vmd_radius': ****},
+
+    #                                            2: {  sphere_info }
+
+    #                                            ...
+    #                                      },
+
+    #                              'pdb_id': { 0:{}, 1:{}, 2:{}, ... n:{} },
+    #                              'pdb_id': { 0:{}, 1:{}, 2:{}, ... n:{} },
+    #                              ...
+    #                            }
+
+    flag = False
+
+    dict = {}
+    for key in multi_sphere:
+        dict[key] = []
+        for keys in multi_sphere[key]:
+            dict[key].append([multi_sphere[key][keys]['sphere_center'], multi_sphere[key][keys]['sphere_radius']])
+    
+    for key in dict:
+        print(key+" "+str(len(dict[key])))
+
+    for key in dict:
+        for i in range(len(dict[key])):
+            x1 = dict[key][i][0][0]
+            y1 = dict[key][i][0][1]
+            z1 = dict[key][i][0][2]
+            tempR1 = dict[key][i][1]
+            for keys in dict:
+                if(keys != key):
+                    for j in range(len(dict[keys])):
+                        x2 = dict[keys][j][0][0]
+                        y2 = dict[keys][j][0][1]
+                        z2 = dict[keys][j][0][2]
+                        tempR2 = dict[keys][j][1]
+                        Distance = math.sqrt((x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
+                        if tempR1 + tempR2 > Distance:
+                            print("Overlap!!")
+                            print(key+" "+str(i))
+                            print(keys+" "+str(j))
+                            flag = True
+    return flag
+
+
 
 def get_multiple_packing_and_plot_ball(multi_sphere, optimal_result):
     pdb_id = optimal_result['pdb_id']
+
+    multi = {}
+
+    for ids in pdb_id:
+        multi[ids] = multi_sphere[ids]
 
     shifted_centers_x = optimal_result['x']
     shifted_centers_y = optimal_result['y']
@@ -72,25 +132,28 @@ def get_multiple_packing_and_plot_ball(multi_sphere, optimal_result):
     radius_list = []
 
     for ii in range(len(pdb_id)):
-        dict = multi_sphere[pdb_id[ii]]
-        for keys in dict:
-            np.array(dict[keys]['sphere_center'])
+        for keys in multi[pdb_id[ii]]:
+            np.array(multi[pdb_id[ii]][keys]['sphere_center'])
             shifted_centers = np.array([shifted_centers_x[ii], shifted_centers_y[ii], shifted_centers_z[ii]])
             #print(str(shifted_centers[0])+' '+str(shifted_centers[1])+' '+str(shifted_centers[2]))
-            print(shifted_centers)
-            print(dict[keys]['sphere_center'])
-            dict[keys]['sphere_center'] = dict[keys]['sphere_center'] - shifted_centers
-            print(dict[keys]['sphere_center'])
-            x.append(dict[keys]['sphere_center'][0])
-            y.append(dict[keys]['sphere_center'][1])
-            z.append(dict[keys]['sphere_center'][2])
-            radius_list.append(dict[keys]['sphere_radius'])
+            # print(shifted_centers)
+            # print(multi[pdb_id[ii]][keys]['sphere_center'])
+            multi[pdb_id[ii]][keys]['sphere_center'] = multi[pdb_id[ii]][keys]['sphere_center'] - shifted_centers
+            # print(multi[pdb_id[ii]][keys]['sphere_center'])
+            x.append(multi[pdb_id[ii]][keys]['sphere_center'][0])
+            y.append(multi[pdb_id[ii]][keys]['sphere_center'][1])
+            z.append(multi[pdb_id[ii]][keys]['sphere_center'][2])
+            radius_list.append(multi[pdb_id[ii]][keys]['sphere_radius'])
 
     x_loc = np.array(x)
     y_loc = np.array(y)
     z_loc = np.array(z)
 
     center_list = [x_loc, y_loc, z_loc]
+
+    if checkOverlap(multi):
+        for key in multi:
+            print(key)
 
     drawing_center_with_ball(radius_list, center_list)
 

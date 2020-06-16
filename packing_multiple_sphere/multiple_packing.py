@@ -109,6 +109,15 @@ def do_multiple_packing(multi_sphere_data, single_sphere_data, iteration = 10001
     # Make dictionary of the form {'pdb_id' : [[centers,radius], [centers,radius], ... ,[centers,radius]], 'pdb_id' : ...}
 
 
+    multi = multi_sphere_data
+
+    multi_sphere_data = {}
+
+    pdb_id = single_sphere_data['pdb_id']
+
+    for i in range(len(pdb_id)):
+        multi_sphere_data[pdb_id[i]] = multi[pdb_id[i]]
+
     shift_centers(multi_sphere_data,single_sphere_data)
 
     dict = {}
